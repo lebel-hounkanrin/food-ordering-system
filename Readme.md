@@ -31,3 +31,6 @@ The system implements several patterns to improve scalability, maintainability, 
    If a transaction fails, compensating actions are triggered to ensure the system remains in a consistent state.
 4. **CQRS:**  
    The project uses **CQRS** to separate the read and write models for better performance and scalability, especially when there are high loads on the read side.
+
+## Setup & Installation  
+(Coming...)
