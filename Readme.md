@@ -1,21 +1,18 @@
 # Microservices Application using Clean Architecture, DDD, and Event-Driven Design
+This project demonstrates the implementation of *microservices architecture* using *Clean Architecture*, *Hexagonal Architecture*,
+and *Domain-Driven Design (DDD)* principles. The services communicate via *event-driven architecture* using *Apache Kafka*,
+and the project also includes various architectural patterns like *CQRS*, *SAGA*, and *Outbox*.
+The services are deployed using *Kubernetes* locally (via Docker) and on *Google Kubernetes Engine (GKE)*.
+
 ## Overview
-This repository contains a microservices-based application built using Spring Boot and following the principles of Clean Architecture, Hexagonal Architecture, and Domain-Driven Design (DDD). The application also integrates Event-Driven Architecture using Apache Kafka and implements several advanced architectural patterns like SAGA, CQRS, and Outbox.
-
-The microservices are deployed using Kubernetes both locally (via Docker Desktop) and on Google Cloud's Google Kubernetes Engine (GKE).
-
-## Technologies Used
-
-- Spring Boot – Framework for building Java-based microservices.
-- Clean Architecture – Separation of concerns into different layers to achieve maintainability and flexibility.
-- Hexagonal Architecture – Also known as Ports and Adapters, focuses on decoupling the core business logic from external systems.
-- Domain-Driven Design (DDD) – Strategic design to ensure alignment between business and technical models.
-
-## Architecture Overview
-
-The architecture follows the principles of Clean Architecture, ensuring that the core business logic is separated from infrastructure concerns. The application is designed with the following key layers:
- 1. Domain Layer (Core Business Logic) – Contains the business logic, entities, aggregates, and domain services
- 2. Application Layer – Coordinates the application's use cases and orchestrates the communication between domain services.
- 3. Infrastructure Layer – Manages external concerns like databases, messaging systems (Kafka), and external APIs.
- 4. Adapters (Ports) – Provide the entry and exit points for interacting with external systems like databases, REST APIs, or message brokers.
+The purpose of this project is to create a set of microservices that adhere to modern architectural best practices.
+The system implements several patterns to improve scalability, maintainability, and fault tolerance:
+- *Clean Architecture*: Enforces separation of concerns to maintain high code quality.
+- *Hexagonal Architecture*: Isolates core business logic from external dependencies.
+- Domain-Driven Design (DDD): Ensures the system is aligned with business needs by modeling the domain effectively.
+- *Event-Driven Architecture*: Microservices communicate asynchronously via Apache Kafka to decouple them.
+- *CQRS*: Separates the commands (write) and queries (read) to optimize performance.
+- *SAGA Pattern*: Manages distributed transactions and ensures consistency across microservices.
+- *Outbox Pattern*: Guarantees reliability in event-driven communication.
+- *Kubernetes*: Services are deployed using Docker for local development and GKE for cloud deployment.
 
