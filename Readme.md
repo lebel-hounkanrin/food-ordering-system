@@ -16,3 +16,18 @@ The system implements several patterns to improve scalability, maintainability, 
 - **Outbox Pattern**: Guarantees reliability in event-driven communication.
 - **Kubernetes**: Services are deployed using Docker for local development and GKE for cloud deployment.
 
+## Architecture
+1. **Microservices:**  
+   Each microservice is responsible for a specific domain of the application. 
+   The core logic is designed to follow Clean Architecture and Hexagonal Architecture principles to keep the services maintainable and scalable.
+   - **Core Domain Layer**: Contains business logic and is independent of frameworks and infrastructure.
+   - **Application Layer**: Handles use cases and business processes.
+   - **Infrastructure Layer**: Interfaces with external systems (databases, messaging brokers, etc.).
+2. **Event-Driven Architecture:**  
+   Each service communicates asynchronously using Apache Kafka. Events are published and consumed by other services, 
+   decoupling them and allowing them to scale independently.
+3. **SAGA Pattern:**  
+   The **SAGA pattern** is used to manage distributed transactions across services.
+   If a transaction fails, compensating actions are triggered to ensure the system remains in a consistent state.
+4. **CQRS:**  
+   The project uses **CQRS** to separate the read and write models for better performance and scalability, especially when there are high loads on the read side.
