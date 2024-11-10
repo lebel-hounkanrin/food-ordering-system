@@ -50,9 +50,10 @@ public class OrderDataMapper {
                 .build();
     }
 
-    public CreateOrderResponse orderToCreateOrderResponse(Order order) {
+    public CreateOrderResponse  orderToCreateOrderResponse(Order order, String message) {
             return CreateOrderResponse.builder()
                     .orderStatus(order.getOrderStatus())
+                    .message(message)
                     .orderTrackingId(order.getTrackingId().getValue())
                     .build();
     }
