@@ -2,7 +2,7 @@ version: "3.7"
 services:
   init-kafka:
     image: confluentinc/cp-kafka:${KAFKA_VERSION}
-    entrypoint: ["/bin/sh", "- c"]
+    entrypoint: ["/bin/sh", "-c"]
     command: |
       "
       kafka-topics --bootstrap-server kafka-broker-1:9092 --list
