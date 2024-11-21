@@ -1,9 +1,11 @@
 package com.food.ordering.system.order.service.dataaccess.order.entity;
 
+import com.food.ordering.system.domain.valueObject.Money;
 import com.food.ordering.system.domain.valueObject.OrderStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -24,6 +26,7 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     private String failureMessages;
+    private BigDecimal price;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private OrderAddressEntity address;
