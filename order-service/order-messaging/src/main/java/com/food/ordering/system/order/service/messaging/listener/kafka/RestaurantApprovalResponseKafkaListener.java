@@ -3,7 +3,6 @@ package com.food.ordering.system.order.service.messaging.listener.kafka;
 import com.food.ordering.system.kafka.consumer.KafkaConsumer;
 import com.food.ordering.system.kafka.order.avro.model.OrderApprovalStatus;
 import com.food.ordering.system.kafka.order.avro.model.RestaurantApprovalResponseAvroModel;
-import com.food.ordering.system.kafka.order.avro.model.RestaurantOrderStatus;
 import com.food.ordering.system.order.service.domain.ports.input.message.listener.restaurantapproval.RestaurantApprovalResponseMessageListener;
 import com.food.ordering.system.order.service.messaging.mapper.OrderMessagingDataMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +28,10 @@ public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<Re
 
     @Override
     @KafkaListener(id="${kafka-consumer-config.restaurant-approval-consumer-group-id}",
-            topics = "${restaurant-service.restaurant-approval-response-topic-name}")
+            topics = "${order-service.restaurant-approval-response-topic-name}")
     public void receive(
             @Payload List<RestaurantApprovalResponseAvroModel> messages,
-            @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<Long> key,
+            @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> key,
             @Header(KafkaHeaders.PARTITION_ID) List<Integer> partitions,
             @Header(KafkaHeaders.OFFSET)List<Long> offsets) {
 
