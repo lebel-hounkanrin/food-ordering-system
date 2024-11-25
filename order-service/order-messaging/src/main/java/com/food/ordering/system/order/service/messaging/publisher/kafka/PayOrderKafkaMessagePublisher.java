@@ -7,9 +7,7 @@ import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import com.food.ordering.system.order.service.domain.ports.output.message.publisher.restaurantapproval.OrderPaidRestaurantRequestMessagePublisher;
 import com.food.ordering.system.order.service.messaging.mapper.OrderMessagingDataMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
-import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Slf4j
 @Component
@@ -17,13 +15,16 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
     private final OrderMessagingDataMapper orderMessagingDataMapper;
     private final OrderServiceConfigData orderServiceConfigData;
     private final KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer;
+    private final OrderKafkaMessageHelper orderKafkaMessageHelper;
 
     public PayOrderKafkaMessagePublisher(OrderMessagingDataMapper orderMessagingDataMapper,
                                          OrderServiceConfigData orderServiceConfigData,
-                                         KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer) {
+                                         KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer,
+                                         OrderKafkaMessageHelper orderKafkaMessageHelper) {
         this.orderMessagingDataMapper = orderMessagingDataMapper;
         this.orderServiceConfigData = orderServiceConfigData;
         this.kafkaProducer = kafkaProducer;
+        this.orderKafkaMessageHelper = orderKafkaMessageHelper;
     }
     @Override
     public void publish(OrderPaidEvent event) {
@@ -35,21 +36,7 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
                 orderServiceConfigData.getRestaurantApprovalRequestTopicName(),
                 orderId,
                 restaurantApprovalRequestAvroModel,
-                kafkaCallback(orderServiceConfigData.getRestaurantApprovalResponseTopicName(), restaurantApprovalRequestAvroModel)
+                orderKafkaMessageHelper.kafkaCallback(orderServiceConfigData.getRestaurantApprovalResponseTopicName(), restaurantApprovalRequestAvroModel)
         );
-    }
-
-
-    private ListenableFutureCallback<SendResult<String, RestaurantApprovalRequestAvroModel>> kafkaCallback(String paymentResponseTopicName, RestaurantApprovalRequestAvroModel paymentRequestAvroModel) {
-        return new ListenableFutureCallback<>() {
-            @Override
-            public void onFailure(Throwable ex) {
-                log.error("Error occurred when sending payment request to kafka topic", ex);
-
-            }
-            public void onSuccess(SendResult<String, RestaurantApprovalRequestAvroModel> result) {
-                log.info("Successfully sent payment request to kafka topic");
-            }
-        };
     }
 }
