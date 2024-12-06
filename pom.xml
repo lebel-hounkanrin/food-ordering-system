@@ -9,6 +9,7 @@
         <module>common</module>
         <module>infra</module>
         <module>infra/kafka</module>
+        <module>customer-service</module>
     </modules>
 
     <parent>
