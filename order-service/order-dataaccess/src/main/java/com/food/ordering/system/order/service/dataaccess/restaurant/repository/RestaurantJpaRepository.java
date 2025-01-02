@@ -9,6 +9,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface RestaurantJpaRepository extends JpaRepository<Restaurant, RestaurantEntityId> {
+public interface RestaurantJpaRepository extends JpaRepository<RestaurantEntity, RestaurantEntityId> {
      Optional<List<RestaurantEntity>> findByRestaurantIdAndProductIdIn(UUID restaurantId, List<UUID> productIds);
 }
