@@ -20,8 +20,8 @@ public class Money {
         return this.amount != null && this.amount.compareTo(BigDecimal.ZERO) > 0;
     }
 
-    boolean isGreaterThan(BigDecimal amount) {
-        return this.amount.compareTo(amount) > 0;
+    public boolean isGreaterThan(Money amount) {
+        return this.amount.compareTo(amount.getAmount()) > 0;
     }
 
     public Money add(Money money) {
