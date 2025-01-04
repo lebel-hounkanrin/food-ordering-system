@@ -10,6 +10,7 @@
         <module>infra</module>
         <module>infra/kafka</module>
         <module>customer-service</module>
+        <module>payment-service</module>
     </modules>
 
     <parent>
