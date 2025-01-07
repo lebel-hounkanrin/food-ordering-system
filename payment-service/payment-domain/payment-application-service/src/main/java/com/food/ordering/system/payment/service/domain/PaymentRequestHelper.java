@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -53,6 +54,30 @@ public class PaymentRequestHelper {
         PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(
                 payment, creditEntry, creditHistoryList, failureMessages
         );
+        paymentRepository.save(payment);
+        if(failureMessages.isEmpty()) {
+            creditEntryRepo.save(creditEntry);
+            creditHistoryRepository.save(creditHistoryList.get(creditHistoryList.size() - 1));
+        }
+        return paymentEvent;
+    }
+
+    @Transactional
+    public PaymentEvent persistCancelPayment(PaymentRequest paymentRequest) {
+        log.info("Received cancel payment completed event for order id {}", paymentRequest.getOrderId());
+        Optional<Payment> paymentResponse = paymentRepository.findByOrderId(
+                UUID.fromString(paymentRequest.getOrderId())
+        );
+        if(paymentResponse.isEmpty()) {
+            log.error("Payment not found for order id {}", paymentRequest.getOrderId());
+            throw new PaymentApplicationServiceException("Payment not found for order id " + paymentRequest.getOrderId());
+        }
+        Payment payment = paymentResponse.get();
+        CreditEntry creditEntry = getCreditEntry(payment.getCustomerId());
+        List<CreditHistory> creditHistoryList = getCreditHistories(payment.getCustomerId());
+        List<String> failureMessages = new ArrayList<>();
+        PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(payment, creditEntry,
+                creditHistoryList, failureMessages);
         paymentRepository.save(payment);
         if(failureMessages.isEmpty()) {
             creditEntryRepo.save(creditEntry);
